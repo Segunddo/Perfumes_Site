@@ -4,11 +4,21 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { PRODUCTS } from '../constants';
+import { addToCart } from '../services/cartService';
+import { useNavigate } from 'react-router-dom';
 
 const ProductPage: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const product = PRODUCTS.find(p => p.id === parseInt(id || ''));
   const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = async () => {
+    if (product) {
+      await addToCart(product);
+      navigate('/cart'); // Leva para o carrinho
+    }
+  };
 
   if (!product) {
     return (
@@ -27,22 +37,22 @@ const ProductPage: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 flex-grow">
-        <a 
-          href="#/" 
+        <a
+          href="#/"
           className="mb-12 inline-flex items-center text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors group"
         >
-          <span className="material-symbols-outlined mr-3 text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span> 
+          <span className="material-symbols-outlined mr-3 text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
           Back to Selection
         </a>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Gallery */}
           <div className="space-y-6 animate-in slide-in-from-left-10 duration-700">
             <div className="aspect-square rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-slate-800 shadow-2xl group">
-              <img 
-                src={product.img} 
-                alt={product.name} 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+              <img
+                src={product.img}
+                alt={product.name}
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
             </div>
             <div className="grid grid-cols-4 gap-6">
@@ -67,11 +77,11 @@ const ProductPage: React.FC = () => {
                 <div className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">{product.price}</div>
                 <div className="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
                 <div className="flex items-center gap-2">
-                   <div className="flex items-center bg-slate-100 dark:bg-slate-800 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800">
-                      <span className="material-symbols-outlined text-primary fill-1 text-base">star</span>
-                      <span className="ml-2 font-bold text-sm">{product.rating}</span>
-                   </div>
-                   <span className="text-slate-400 text-xs font-medium uppercase tracking-widest ml-2">({product.reviews} reviews)</span>
+                  <div className="flex items-center bg-slate-100 dark:bg-slate-800 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800">
+                    <span className="material-symbols-outlined text-primary fill-1 text-base">star</span>
+                    <span className="ml-2 font-bold text-sm">{product.rating}</span>
+                  </div>
+                  <span className="text-slate-400 text-xs font-medium uppercase tracking-widest ml-2">({product.reviews} reviews)</span>
                 </div>
               </div>
             </div>
@@ -84,14 +94,14 @@ const ProductPage: React.FC = () => {
               <div className="flex items-center gap-8">
                 <span className="font-bold text-[10px] uppercase tracking-[0.2em] w-24 text-slate-400">Quantity</span>
                 <div className="flex items-center bg-slate-50 dark:bg-slate-800 rounded-full p-1.5 border border-slate-200 dark:border-slate-700">
-                  <button 
+                  <button
                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                     className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm flex items-center justify-center transition-all"
                   >
                     <span className="material-symbols-outlined">remove</span>
                   </button>
                   <span className="w-12 text-center font-bold">{quantity}</span>
-                  <button 
+                  <button
                     onClick={() => setQuantity(q => q + 1)}
                     className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm flex items-center justify-center transition-all"
                   >
@@ -102,14 +112,11 @@ const ProductPage: React.FC = () => {
             </div>
 
             <div className="flex gap-4 mt-auto">
-              <a 
-                href="#/cart"
+              <button
+                onClick={handleAddToCart}
                 className="flex-1 py-6 bg-primary text-white rounded-[1.5rem] font-bold text-sm uppercase tracking-[0.2em] hover:opacity-90 transition-all shadow-2xl shadow-primary/30 flex items-center justify-center gap-4 group"
               >
                 <span className="material-symbols-outlined group-hover:scale-110 transition-transform">shopping_bag</span> Add to Bag
-              </a>
-              <button className="p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                <span className="material-symbols-outlined">favorite</span>
               </button>
             </div>
 

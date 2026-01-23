@@ -2,12 +2,26 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useEffect, useState } from 'react';
+import { getCart, removeFromCart } from '../services/cartService';
+import { Product } from '../types';
 
 const CartPage: React.FC = () => {
-  const cartItems = [
-    { id: 5, name: "IZ Laptop Pro", price: "R$ 14.999,00", detail: "Midnight | 1TB | 32GB RAM", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAwf0vLtP9hdx8wU6pdm9r7K_2a2D4r6vpgXGdSyiTdIwL_IhVVikamrPQpOc74CUk1Q4EicPLBq4by0w1NR57b7EbY_PdS8MXYNmDPWvd9gkgEtGOGnTjPvN_6iPSf6uPT5nttJpoiyaS_7FayhL43Pfo52VBlQcNulNV4s9GpXIaqm9AlL0Ea2Id0UpqhvhJg6kVEDkuvGTI4FRY7GXtBN-k6vz34rYL5zEaF_GP6oXIA17iJqwcZa43Lpq4vVBUwwfi6atZobCzl" },
-    { id: 1, name: "Acoustic Pro Max", price: "R$ 2.499,00", detail: "Space Gray | Noise Cancelling", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCNwH07NL66abeGEOptCCYkCsqjxacnaB2XepBRgsqZc9UpLi9Xw-Bmy8i8SCnQRJx61FVKSl-QPy30X5m42OBSDdDzWAdw2AYGWcZ6ZuAFqGwns455nEWKVuHdjjgj9V_f5SaoWw45MW4pT-xdVwC2hScCe4btBHfZmfuPr3Lkj_pIJtFuuz5p_0lI85DxDV7IYWgNLbVnzoCwfguxBRXiaByNyiBsNgo6Q89nNvPCRbXeA-aaRx3tXDF7xolmz1oJkFdpfHVA9Xtv" }
-  ];
+  const [cartItems, setCartItems] = useState<Product[]>([]);
+  useEffect(() => {
+    const fetchCart = async () => {
+      const items = await getCart();
+      setCartItems(items);
+    };
+    fetchCart();
+  }, []);
+
+  const handleRemove = async (index: number) => {
+    await removeFromCart(index);
+    // Atualiza a lista buscando do servidor de novo para garantir sincronia
+    const updatedItems = await getCart();
+    setCartItems(updatedItems);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,7 +58,10 @@ const CartPage: React.FC = () => {
                         <span className="px-5 text-sm font-bold">1</span>
                         <button className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 flex items-center justify-center transition-all"><span className="material-symbols-outlined text-lg">add</span></button>
                       </div>
-                      <button className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors flex items-center gap-2">
+                      <button
+                        onClick={() => handleRemove(idx)}
+                        className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors flex items-center gap-2"
+                      >
                         <span className="material-symbols-outlined text-lg">delete</span> Remove Item
                       </button>
                     </div>
@@ -83,9 +100,9 @@ const CartPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </main>
+      </main >
       <Footer />
-    </div>
+    </div >
   );
 };
 
