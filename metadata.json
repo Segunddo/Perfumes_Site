@@ -1,0 +1,6 @@
+
+{
+  "name": "IzeShop Premium",
+  "description": "A high-end retail experience featuring curated electronics and lifestyle products with an integrated Gemini-powered shopping assistant.",
+  "requestFramePermissions": ["camera", "microphone"]
+}
