@@ -9,12 +9,17 @@ const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 4;
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const data = await getProducts();
-        if (data.length === 0) throw new Error("No products found (Connection failed?)");
+        const data = await getProducts('', page, ITEMS_PER_PAGE);
+        // If empty and page > 1, maybe go back? For now just show empty or handle gracefully.
+        if (data.length === 0 && page === 1) throw new Error("No products found (Connection failed?)");
         setProducts(data);
       } catch (err: any) {
         setError(err.message || "Unknown Error");
@@ -23,7 +28,15 @@ const HomePage: React.FC = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [page]);
+
+  const handleNextPage = () => {
+    setPage(p => p + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(p => Math.max(1, p - 1));
+  };
 
   return (
     <div>
@@ -96,7 +109,7 @@ const HomePage: React.FC = () => {
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 tracking-tight text-slate-900 dark:text-white">The Curated Masterpieces</h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 font-medium">Our handpicked selection of items that define contemporary excellence.</p>
           </div>
-          <a href="#/" className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-primary hover:text-slate-900 dark:hover:text-white transition-colors">
+          <a href="#/collection" className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-primary hover:text-slate-900 dark:hover:text-white transition-colors">
             View All Selections
             <span className="w-10 h-10 rounded-full border border-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -116,10 +129,36 @@ const HomePage: React.FC = () => {
               <code className="text-sm opacity-80">{error}</code>
             </div>
           ) : (
-            products.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))
+            <>
+              {products.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+              {products.length === 0 && (
+                <div className="col-span-4 text-center py-20">
+                  <p className="text-slate-500 text-sm uppercase tracking-widest">End of Collection</p>
+                </div>
+              )}
+            </>
           )}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-20 gap-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={page === 1 || loading}
+            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Page {page}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={products.length < ITEMS_PER_PAGE || loading} // Simple check: if less than limit, probably last page
+            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          >
+            <span className="material-symbols-outlined">arrow_forward</span>
+          </button>
         </div>
       </section>
 

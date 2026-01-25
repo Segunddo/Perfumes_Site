@@ -16,12 +16,24 @@ export const getCategories = async (): Promise<Category[]> => {
 };
 
 
-export const getProducts = async (): Promise<Product[]> => {
-    console.log("Fetching products from /api/products...");
+export const getProducts = async (query: string = '', page?: number, limit?: number): Promise<Product[]> => {
     try {
-        const response = await fetch('/api/products');
+        let url = `/api/products?`;
 
-        console.log("Response status:", response.status);
+        if (query) {
+            url += `q=${encodeURIComponent(query)}&`;
+        }
+
+        if (page && limit) {
+            url += `_page=${page}&_limit=${limit}&`;
+        }
+
+        if (url.endsWith('&') || url.endsWith('?')) {
+            url = url.slice(0, -1);
+        }
+
+        const response = await fetch(url);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -31,6 +43,7 @@ export const getProducts = async (): Promise<Product[]> => {
         console.error("Fetch error:", error);
         throw error;
     }
+    return [];
 };
 
 export const getProductById = async (id: number): Promise<Product | null> => {

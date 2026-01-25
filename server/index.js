@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const { GoogleGenAI } = require('@google/genai');
+
 const path = require('path');
 
 // Configure dotenv to read from the root .env file
@@ -14,13 +14,7 @@ const CART = [];
 app.use(cors());
 app.use(express.json());
 
-// Initialize Gemini
-let ai = null;
-if (process.env.GEMINI_API_KEY) {
-    ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-} else {
-    console.warn("Warning: GEMINI_API_KEY not found in environment variables.");
-}
+
 
 // Product Context - Source of Truth
 const PRODUCTS = [
@@ -93,7 +87,32 @@ app.get('/api/categories', (req, res) => {
 
 app.get('/api/products', (req, res) => {
     console.log('GET /api/products request received');
-    res.json(PRODUCTS);
+    const { q, _page, _limit } = req.query;
+
+    let results = PRODUCTS;
+
+    // 1. Filter by Query
+    if (q) {
+        const lowerQ = q.toLowerCase();
+        results = results.filter(p =>
+            p.name.toLowerCase().includes(lowerQ) ||
+            p.category.toLowerCase().includes(lowerQ)
+        );
+    }
+
+    // Reverse order (Newest first / LIFO)
+    results = [...results].reverse();
+
+    // 2. Pagination
+    if (_page && _limit) {
+        const page = parseInt(_page);
+        const limit = parseInt(_limit);
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        results = results.slice(startIndex, endIndex);
+    }
+
+    res.json(results);
 });
 
 app.get('/api/products/:id', (req, res) => {
@@ -106,43 +125,7 @@ app.get('/api/products/:id', (req, res) => {
     }
 });
 
-app.post('/api/chat', async (req, res) => {
-    console.log('POST /api/chat request received');
-    const { message } = req.body;
 
-    if (!ai) {
-        return res.status(503).json({
-            response: "I am currently in demo mode. Please configure the GEMINI_API_KEY to enable my full capabilities."
-        });
-    }
-
-    try {
-        const productsContext = PRODUCTS.map(p => `${p.name} (${p.category}): ${p.price}`).join(', ');
-        const systemInstruction = `
-      You are a helpful and premium-style personal shopping assistant for "IzeShop", an elite online retailer.
-      Your tone should be sophisticated, professional, and helpful.
-      Available products are: ${productsContext}.
-      If the user asks for recommendations, mention these specific products.
-      Keep responses concise and elegant.
-    `;
-
-        const response = await ai.models.generateContent({
-            model: "gemini-1.5-flash",
-            contents: message,
-            config: {
-                systemInstruction,
-                temperature: 0.7,
-            }
-        });
-
-        res.json({ response: response.text() });
-    } catch (error) {
-        console.error("Gemini API Error:", error);
-        res.status(500).json({
-            response: "Our systems are experiencing a brief delay. I am here to help as soon as possible."
-        });
-    }
-});
 
 app.get('/api/cart', (req, res) => {
     res.json(CART);

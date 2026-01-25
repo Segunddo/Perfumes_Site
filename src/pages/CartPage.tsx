@@ -57,7 +57,7 @@ const CartPage: React.FC = () => {
       <main className="pt-40 pb-24 flex-grow animate-in fade-in duration-700">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16">
-            <a href="#/" className="inline-flex items-center text-xs font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-primary transition-colors group mb-8">
+            <a href="#/" className="inline-flex items-center text-sm font-bold uppercase tracking-[0.2em] text-slate-500 bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-primary transition-all group mb-8">
               <span className="material-symbols-outlined text-lg mr-3 group-hover:-translate-x-1 transition-transform">arrow_back</span>
               Return to Gallery
             </a>
@@ -127,7 +127,7 @@ const CartPage: React.FC = () => {
                 </div>
                 <a
                   href="#/checkout"
-                  className="w-full inline-block text-center py-6 bg-primary text-white rounded-2xl font-bold text-xs uppercase tracking-[0.2em] hover:opacity-90 active:scale-[0.98] transition-all mb-6 shadow-2xl shadow-primary/30"
+                  className="w-full inline-block text-center py-6 bg-primary text-white rounded-2xl font-bold text-sm uppercase tracking-[0.2em] hover:opacity-90 active:scale-[0.98] transition-all mb-6 shadow-2xl shadow-primary/30"
                 >
                   Proceed to Checkout
                 </a>

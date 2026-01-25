@@ -6,7 +6,7 @@ import ProductPage from './pages/ProductPage';
 import CollectionPage from './pages/CollectionPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
-import AIAssistant from './components/AIAssistant';
+
 
 const App: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const App: React.FC = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
-        <AIAssistant />
+
       </div>
     </HashRouter>
   );

@@ -68,7 +68,7 @@ const ProductPage: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 flex-grow">
         <a
           href="#/"
-          className="mb-12 inline-flex items-center text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors group"
+          className="mb-12 inline-flex items-center text-sm font-bold uppercase tracking-widest text-slate-500 bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-primary transition-all group"
         >
           <span className="material-symbols-outlined mr-3 text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
           Back to Selection

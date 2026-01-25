@@ -19,33 +19,31 @@ const Header: React.FC = () => {
     };
     fetchCartCount();
 
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to load products for search", error);
-      }
-    };
-    fetchProducts();
-
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Debounced search effect
   useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [isSearchOpen]);
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchQuery.trim()) {
+        try {
+          const data = await getProducts(searchQuery);
+          setProducts(data);
+        } catch (error) {
+          console.error("Failed to search products", error);
+          setProducts([]);
+        }
+      } else {
+        setProducts([]);
+      }
+    }, 300); // 300ms delay
 
-  const filteredProducts = searchQuery.trim() === ''
-    ? []
-    : products.filter(p =>
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchQuery.toLowerCase())
-    ).slice(0, 5);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
+
+  const filteredProducts = products.slice(0, 5);
 
   const closeSearch = () => {
     setIsSearchOpen(false);
@@ -69,7 +67,7 @@ const Header: React.FC = () => {
               href="#/collection"
               className="text-sm font-semibold hover:text-primary transition-colors uppercase tracking-widest text-slate-900 dark:text-white"
             >
-              Collection
+              Categorias
             </a>
           </div>
 

@@ -8,15 +8,15 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <a 
+    <a
       href={`#/product/${product.id}`}
       className="group relative block animate-in fade-in slide-in-from-bottom-4 duration-500"
     >
       <div className="aspect-square rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-800 mb-6 relative cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500">
-        <img 
-          src={product.img} 
-          alt={product.name} 
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+        <img
+          src={product.img}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
         {product.tag && (
           <span className="absolute top-5 left-5 bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md uppercase tracking-widest">
@@ -25,7 +25,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
         <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <div className="absolute bottom-5 left-5 right-5 bg-white/95 dark:bg-slate-900/95 py-4 rounded-2xl font-bold text-center text-xs uppercase tracking-widest shadow-2xl backdrop-blur-md opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-          View Masterpiece
+          Visualizar Produto
         </div>
       </div>
       <div className="px-1">
