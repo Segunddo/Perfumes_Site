@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-2">
             <span className="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight block mb-6">
-              ize<span className="text-primary">shop</span>.com.br
+              IZE<span className="text-primary">SHOP</span>
             </span>
             <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-8 leading-relaxed">
               Elevating the Brazilian retail landscape with globally curated premium electronics, fashion, and lifestyle essentials. Quality meets sophistication.

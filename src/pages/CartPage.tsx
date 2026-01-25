@@ -3,8 +3,26 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
-import { getCart, removeFromCart } from '../services/cartService';
+import { getCart, removeFromCart, updateCartQuantity } from '../services/cartService';
 import { Product } from '../types';
+
+// Converter texto "$299.00" em número 299.00
+const parsePrice = (priceString: string): number => {
+  if (!priceString) return 0;
+
+  let clean = priceString.replace(/[^0-9.,]/g, '');
+
+  if (clean.match(/,\d{2}$/)) {
+    clean = clean.replace(/\./g, '').replace(',', '.');
+  } else {
+    clean = clean.replace(/,/g, '');
+  }
+  return parseFloat(clean) || 0;
+};
+
+const formatPrice = (amount: number): string => {
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(amount);
+};
 
 const CartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
@@ -18,10 +36,20 @@ const CartPage: React.FC = () => {
 
   const handleRemove = async (index: number) => {
     await removeFromCart(index);
-    // Atualiza a lista buscando do servidor de novo para garantir sincronia
     const updatedItems = await getCart();
     setCartItems(updatedItems);
   };
+
+  const handleUpdateQuantity = async (index: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    await updateCartQuantity(index, newQuantity);
+    // Recarrega o carrinho para atualizar o total
+    const updatedItems = await getCart();
+    setCartItems(updatedItems);
+  };
+
+  const total = cartItems.reduce((sum, item) =>
+    sum + (parsePrice(item.price) * (item.quantity || 1)), 0);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,9 +82,19 @@ const CartPage: React.FC = () => {
                     </div>
                     <div className="flex items-center justify-between mt-8">
                       <div className="flex items-center bg-slate-50 dark:bg-slate-800 rounded-full p-1 border border-slate-200 dark:border-white/10">
-                        <button className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 flex items-center justify-center transition-all"><span className="material-symbols-outlined text-lg">remove</span></button>
-                        <span className="px-5 text-sm font-bold">1</span>
-                        <button className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 flex items-center justify-center transition-all"><span className="material-symbols-outlined text-lg">add</span></button>
+                        <button
+                          onClick={() => handleUpdateQuantity(idx, (item.quantity || 1) - 1)}
+                          className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 flex items-center justify-center transition-all"
+                        >
+                          <span className="material-symbols-outlined text-lg">remove</span>
+                        </button>
+                        <span className="px-5 text-sm font-bold">{item.quantity || 1}</span>
+                        <button
+                          onClick={() => handleUpdateQuantity(idx, (item.quantity || 1) + 1)}
+                          className="w-10 h-10 rounded-full hover:bg-white dark:hover:bg-slate-700 flex items-center justify-center transition-all"
+                        >
+                          <span className="material-symbols-outlined text-lg">add</span>
+                        </button>
                       </div>
                       <button
                         onClick={() => handleRemove(idx)}
@@ -76,15 +114,15 @@ const CartPage: React.FC = () => {
                 <div className="space-y-6 mb-10">
                   <div className="flex justify-between text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-widest">
                     <span>Subtotal</span>
-                    <span>R$ 17.498,00</span>
+                    <span>{formatPrice(total)}</span>
                   </div>
                   <div className="flex justify-between text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-widest">
-                    <span>Priority Shipping</span>
-                    <span className="text-primary font-bold">Complimentary</span>
+                    <span>VALOR DO FRETE</span>
+                    <span className="text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/20 px-3 py-1 rounded-full text-xs font-bold">GRÁTIS</span>
                   </div>
                   <div className="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col items-end">
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-2">Total Amount</span>
-                    <p className="text-4xl font-display font-bold tracking-tighter text-slate-900 dark:text-white">R$ 17.498,00</p>
+                    <p className="text-4xl font-display font-bold tracking-tighter text-slate-900 dark:text-white">{formatPrice(total)}</p>
                   </div>
                 </div>
                 <a

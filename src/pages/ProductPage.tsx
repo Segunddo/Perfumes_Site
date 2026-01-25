@@ -1,24 +1,53 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { PRODUCTS } from '../constants';
+import { getProductById } from '../services/productService';
 import { addToCart } from '../services/cartService';
 import { useNavigate } from 'react-router-dom';
+import { Product } from '../types';
 
 const ProductPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const product = PRODUCTS.find(p => p.id === parseInt(id || ''));
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return;
+      try {
+        const data = await getProductById(parseInt(id));
+        setProduct(data);
+      } catch (error) {
+        console.error("Failed to fetch product", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
 
   const handleAddToCart = async () => {
     if (product) {
-      await addToCart(product);
-      navigate('/cart'); // Leva para o carrinho
+      await addToCart({ ...product, quantity });
+      navigate('/cart'); // Leva pro carrinho
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex flex-col items-center justify-center p-20">
+          <div className="w-2 h-2 bg-primary rounded-full animate-pulse inline-block"></div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   if (!product) {
     return (

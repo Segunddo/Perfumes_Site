@@ -1,16 +1,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import MegaMenu from './MegaMenu';
-import { PRODUCTS } from '../constants';
-
+import { getProducts } from '../services/productService';
 import { getCart } from '../services/cartService';
+import { Product } from '../types';
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -19,6 +18,16 @@ const Header: React.FC = () => {
       setCartCount(items.length);
     };
     fetchCartCount();
+
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to load products for search", error);
+      }
+    };
+    fetchProducts();
 
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -33,7 +42,7 @@ const Header: React.FC = () => {
 
   const filteredProducts = searchQuery.trim() === ''
     ? []
-    : PRODUCTS.filter(p =>
+    : products.filter(p =>
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.category.toLowerCase().includes(searchQuery.toLowerCase())
     ).slice(0, 5);
@@ -50,20 +59,18 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className={`flex-shrink-0 flex items-center transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <a href="#/" className="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
-              ize<span className="text-primary">shop</span>.com.br
+              IZE<span className="text-primary">SHOP</span>
             </a>
           </div>
 
           {/* Desktop Nav */}
           <div className={`hidden md:flex space-x-10 items-center transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            <button
-              onClick={() => setIsMenuOpen(true)}
-              className="text-sm font-semibold hover:text-primary transition-colors focus:outline-none uppercase tracking-widest text-slate-900 dark:text-white"
+            <a
+              href="#/collection"
+              className="text-sm font-semibold hover:text-primary transition-colors uppercase tracking-widest text-slate-900 dark:text-white"
             >
               Collection
-            </button>
-            <a href="#/" className="text-sm font-semibold hover:text-primary transition-colors uppercase tracking-widest text-slate-900 dark:text-white">New Arrivals</a>
-            <a href="#/" className="text-sm font-semibold hover:text-primary transition-colors uppercase tracking-widest text-slate-900 dark:text-white">Deals</a>
+            </a>
           </div>
 
           {/* Action Icons */}
@@ -160,7 +167,6 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
-      {isMenuOpen && <MegaMenu onClose={() => setIsMenuOpen(false)} />}
     </nav>
   );
 };

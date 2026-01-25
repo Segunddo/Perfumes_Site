@@ -80,9 +80,30 @@ const PRODUCTS = [
     }
 ];
 
+const CATEGORIES = [
+    { title: 'Smartphones', count: '320', icon: 'devices', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD0KYutjwJyAFO7HpSRTNahVBUlp9rXIw1k9DOGWL9-HcgLXVDH2zakdlfM6nQP14UWfjtXn4B8JWSjLprkgA66lcZejv9ThuIxYb7EMTgZwb0kmelNdUfJAXVTVsVnKN2EIrPkGKNx_meu4OfJMP4VZvt9Ux4_6hqAXi2HvGaK_MMFAtr-MvrbykpaHkdwCZUUtsgmJX1oJujwE8joZtMXRPRPtwa6xX6dxX6VJiEodoTN-KV6pPX5jPEWGc5ZHzXU8FoCruV5GiXY' },
+    { title: 'Laptops & PC', count: '145', icon: 'laptop_mac', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCXfNc2qrQ0ulFfW8agp167B5QmGPAN1LJmbnSONS6r2eU1H3_oFQtD1Xjbq2PixcZzPnS_9Y6wWyHA4gLWbC2zpxFO8qKoK0YnX5OxXY7N3tMeCiqtBvRtw7b4BQhilIk7BnvzFzMi8W9JIBYnjrDkR2XokMZskWZ3nDQMHVx3geA7-anAIcKHmOri7YRdUBkJncJv7Mx9DLPCSO-oTuTTkVgi6g4zVwI9lvwQjTcr246-j2mmX2t6y3qiZD7c6jn5nXoCSR8llGns' },
+    { title: 'Wearables', count: '88', icon: 'watch', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCsj0XOi7hOXtzkUo5E_S_Enh_VQlBsbEQRbn27W-t5_oTPmO-1gZWhvVDzh4SRpych5IpSDCXDA9yrx_6qCuywEBVuaEss8HehthU-r3P-uT3jwihZwCn8hr2rOwFJCfwrSyX-3gGQPAVssxDrgBvnsLKmkFSDxn45S5_R7S_rXVSwoO3RgXbWV9N3HXcv2BluzMa3OBfbY9El3S5q-RvlOjPCBzLz2x-bfdLqwldIDBG5__SS2mNsTuAYXtJ1v0l6vPpZ-n2yNGZ8' }
+];
+
+app.get('/api/categories', (req, res) => {
+    console.log('GET /api/categories request received');
+    res.json(CATEGORIES);
+});
+
 app.get('/api/products', (req, res) => {
     console.log('GET /api/products request received');
     res.json(PRODUCTS);
+});
+
+app.get('/api/products/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const product = PRODUCTS.find(p => p.id === id);
+    if (product) {
+        res.json(product);
+    } else {
+        res.status(404).json({ message: 'Product not found' });
+    }
 });
 
 app.post('/api/chat', async (req, res) => {
@@ -138,6 +159,18 @@ app.delete('/api/cart/:index', (req, res) => {
     if (index >= 0 && index < CART.length) {
         CART.splice(index, 1); // Remove 1 item nessa posição
         res.json({ message: 'Item removed' });
+    } else {
+        res.status(400).json({ message: 'Invalid index' });
+    }
+});
+
+app.put('/api/cart/:index', (req, res) => {
+    const index = parseInt(req.params.index);
+    const { quantity } = req.body;
+
+    if (index >= 0 && index < CART.length) {
+        CART[index].quantity = quantity;
+        res.json({ message: 'Cart updated' });
     } else {
         res.status(400).json({ message: 'Invalid index' });
     }
