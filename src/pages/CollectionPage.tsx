@@ -10,7 +10,7 @@ const CollectionPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [page, setPage] = useState(1);
-    const ITEMS_PER_PAGE = 6;
+    const ITEMS_PER_PAGE = 15;
 
     useEffect(() => {
         const fetch = async () => {
@@ -48,6 +48,7 @@ const CollectionPage: React.FC = () => {
     // Reset page when category changes
     useEffect(() => {
         setPage(1);
+        setProducts([]);
     }, [selectedCategory]);
 
     // Extract unique categories (Note: Ideally this comes from backend API /api/categories)
@@ -64,16 +65,34 @@ const CollectionPage: React.FC = () => {
 
     useEffect(() => {
         const fetchCats = async () => {
-            // We can mock this or implement getCategories in service
-            // ProductService has getCategories.
-            // Im importing getCategories from service.
+            try {
+                // We reuse getCategories but it returns Category objects, we just need titles here or "All"
+                // Actually getCategories returns the full list of category OBJECTS with counts/images. 
+                // That's fine. Wait, the frontend API service call definition might be important.
+                // Assuming getCategories (imported from service) returns Category[].
+                // Let's check service definition or just assumes it works (it is imported).
+                // But wait, the previous code imported getCategories from service but used it for products? 
+                // Ah line 5: import { getProducts } from ...
+                // I need: import { getCategories } from ...
+                // But I see line 66 comment: "ProductService has getCategories".
+
+                // Let's import getCategories properly first.
+            } catch (e) { console.error(e); }
         };
-        // Actually, let's just stick to a manual list or "All" for now to avoid complexity explosion, 
-        // as user just asked for pagination.
-        // But the previous code derived categories from `products`. Since `products` is now just ONE PAGE,
-        // we can't derive ALL categories from it.
-        // I will use a hardcoded list for now to keep it working.
-        setCategories(['All', 'Audio Electronics', 'Wearables', 'Fashion Footwear', 'Accessories', 'Electronics', 'Smartphones']);
+        // fetchCats();
+    }, []);
+
+    useEffect(() => {
+        const fetchCats = async () => {
+            // We need to fetch categories. First let's make sure we have the function available.
+            // I will modify the import on top of file in next step if needed, or assume it's there?
+            // Actually, I can just fetch it directly or use the service.
+            // Let's stick to modifying the categories state logic to dynamic.
+            fetch('http://localhost:5001/api/categories').then(res => res.json()).then((data: any[]) => {
+                setCategories(['All', ...data.map(c => c.title)]);
+            }).catch(err => console.error("Failed to fetch categories", err));
+        };
+        fetchCats();
     }, []);
 
     return (
@@ -126,14 +145,14 @@ const CollectionPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {loading ? (
+                    {loading && products.length === 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[1, 2, 3, 4, 5, 6].map(i => (
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => (
                                 <div key={i} className="aspect-[4/5] bg-slate-200 dark:bg-slate-800 rounded-[2rem] animate-pulse"></div>
                             ))}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+                        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 transition-opacity duration-300 ${loading ? 'opacity-50 pointer-events-none' : ''}`}>
                             {products.length === 0 ? (
                                 <div className="col-span-3 text-center py-20">
                                     <p className="text-slate-500 font-medium">No more products in this collection.</p>

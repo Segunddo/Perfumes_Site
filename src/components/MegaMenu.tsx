@@ -47,14 +47,14 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
           <aside className="w-80 border-r border-gray-100 dark:border-gray-800 flex flex-col bg-gray-50/30 dark:bg-gray-950/40 p-8 shrink-0">
             <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">Main Departments</h3>
             <nav className="space-y-2">
-              {['Electronics', 'Fashion', 'Home Decor', 'Accessories', 'Sports'].map((dept, i) => (
+              {categories.slice(0, 5).map((cat, i) => (
                 <button
-                  key={dept}
+                  key={cat.title}
                   className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl transition-all group ${i === 0 ? 'bg-primary/10 text-primary font-bold' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'}`}
                 >
                   <div className="flex items-center gap-4">
-                    <span className="material-symbols-outlined text-2xl">{['devices', 'apparel', 'chair', 'watch', 'fitness_center'][i]}</span>
-                    <span className="text-[15px]">{dept}</span>
+                    <span className="material-symbols-outlined text-2xl">{cat.icon}</span>
+                    <span className="text-[15px]">{cat.title}</span>
                   </div>
                   <span className="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </button>

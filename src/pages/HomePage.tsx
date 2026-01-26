@@ -11,6 +11,15 @@ const HomePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const ITEMS_PER_PAGE = 4;
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
+
+  // Auto-rotate hero slides
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroSlide(prev => (prev + 1) % 4);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,62 +50,58 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <Header />
-
       {/* Hero Section */}
-      <section className="relative h-[95vh] min-h-[700px] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            alt="Luxury lifestyle hero"
-            className="w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHBQv-fYUaToJ_pws8KMzMCI3Jxld7oTebnlTJc0gwHrGxHer9kVAe7ISitfzXy2KZidzddXVkC1IPtGbMK5BayJjOjIyOO3TsAgCHI53-zACEgrex8hoNaWZUwRlmBlGFkAjwmhdL0thIO0jMlrwz4M_EAfkiibwf5wSYU-AXE8b9_VpcKLgfYhdwljus3yxANQ05wg_F5FpkPeSVOKt3A984cB12xFOVty96_DHe-94YnuzXlaRZ6Rrbsb9bJq81yaKQiPp93v_L"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-8 border border-white/20">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-              Spring Summer 2024 Collection
-            </div>
-            <h1 className="text-6xl md:text-8xl font-display font-bold text-white mb-8 leading-[1.1] tracking-tight">
-              Redefining <br />
-              <span className="text-primary italic">Brazilian Luxury.</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-slate-200 mb-12 max-w-xl leading-relaxed font-light">
-              Experience a world where cutting-edge technology meets timeless designer aesthetics.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <a href="#/collection" className="px-10 py-5 bg-primary text-white rounded-2xl font-bold uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-2xl shadow-primary/40 flex items-center justify-center">
-                Explore The Gallery <span className="material-symbols-outlined ml-3 text-lg">arrow_forward</span>
-              </a>
-              <a href="#/" className="px-10 py-5 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-white/20 transition-all flex items-center justify-center">
-                Private Access
-              </a>
-            </div>
+      <section className="relative h-[65vh] min-h-[400px] flex items-center overflow-hidden">
+        {/* Carousel Backgrounds */}
+        {[
+          "https://izeshop.com.br/wp-content/uploads/2024/01/banner-izeshop-desktop-1.jpg",
+          "https://izeshop.com.br/wp-content/uploads/2024/01/banner-izeshop-desktop-2.jpg",
+          "https://izeshop.com.br/wp-content/uploads/2024/01/banner-izeshop-desktop-3.jpg",
+          "https://izeshop.com.br/wp-content/uploads/2023/08/HOME-IZSEHOP2.webp"
+        ].map((img, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentHeroSlide ? 'opacity-100 z-0' : 'opacity-0 -z-10'
+              }`}
+          >
+            <img
+              alt={`Hero Slide ${index + 1}`}
+              className="w-full h-full object-cover"
+              src={img}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
           </div>
+        ))}
+
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+          {[0, 1, 2, 3].map((idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentHeroSlide(idx)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${currentHeroSlide === idx
+                ? 'bg-primary w-8'
+                : 'bg-white/50 hover:bg-white'
+                }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white opacity-60">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
-        </div>
       </section>
-
       {/* Trust Badges */}
       <div className="bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-12">
           {[
-            { icon: 'local_shipping', title: 'White Glove Delivery', desc: 'Complimentary on orders over R$ 1.000' },
-            { icon: 'verified_user', title: 'Global Authentication', desc: 'Guaranteed genuine premium products' },
-            { icon: 'history', title: 'Concierge Returns', desc: 'Complimentary 30-day effortless returns' },
-            { icon: 'support_agent', title: 'Private Advisor', desc: '24/7 dedicated lifestyle experts' }
+            { icon: 'local_shipping', title: 'Frete Grátis', desc: 'Entrega em todo Brasil' },
+            { icon: 'credit_card', title: 'Parcelamento', desc: 'Em 12x nos Cartões' },
+            { icon: 'verified_user', title: 'Compra Segura', desc: 'Ambiente seguro para pagamentos online' },
+            { icon: 'support_agent', title: 'Satisfação Garantida', desc: 'Você 100% feliz ou seu reembolso garantido' }
           ].map((badge, i) => (
-            <div key={badge.icon} className="flex flex-col items-center md:items-start text-center md:text-left">
-              <span className="material-symbols-outlined text-primary text-3xl mb-4">{badge.icon}</span>
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-2">{badge.title}</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{badge.desc}</p>
+            <div key={badge.icon} className="flex flex-col items-center text-center p-6 bg-white dark:bg-slate-800 rounded-[2rem] shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800">
+              <span className="material-symbols-outlined text-primary text-4xl mb-4">{badge.icon}</span>
+              <h4 className="text-sm font-bold uppercase tracking-widest mb-2">{badge.title}</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{badge.desc}</p>
             </div>
           ))}
         </div>
@@ -106,8 +111,20 @@ const HomePage: React.FC = () => {
       <section id="collection" className="py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-xl">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 tracking-tight text-slate-900 dark:text-white">The Curated Masterpieces</h2>
-            <p className="text-lg text-slate-500 dark:text-slate-400 font-medium">Our handpicked selection of items that define contemporary excellence.</p>
+            <span className="inline-block px-3 py-1 mb-4 text-[10px] font-bold tracking-[0.2em] uppercase text-primary bg-primary/5 rounded-full border border-primary/10">
+              Em Destaque
+            </span>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 tracking-tight text-slate-900 dark:text-white">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
+                NOVIDADES
+              </span>
+            </h2>
+            <div className="flex items-center gap-4 mb-2">
+              <div className="h-px w-12 bg-primary"></div>
+              <p className="text-lg text-slate-500 dark:text-slate-400 font-medium">
+                Nossos itens mais recentes
+              </p>
+            </div>
           </div>
           <a href="#/collection" className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-primary hover:text-slate-900 dark:hover:text-white transition-colors">
             View All Selections
@@ -117,48 +134,53 @@ const HomePage: React.FC = () => {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
-          {loading ? (
-            <div className="col-span-4 text-center py-20">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse inline-block"></span>
-              <span className="ml-2 text-xs font-bold uppercase tracking-widest text-slate-400">Loading Gallery...</span>
-            </div>
-          ) : error ? (
-            <div className="col-span-4 text-center py-20 text-red-500 bg-red-50/10 rounded-lg border border-red-500/20">
-              <p className="font-bold mb-2">⚠ ERROR LOADING PRODUCTS</p>
-              <code className="text-sm opacity-80">{error}</code>
-            </div>
-          ) : (
-            <>
-              {products.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-              {products.length === 0 && (
-                <div className="col-span-4 text-center py-20">
-                  <p className="text-slate-500 text-sm uppercase tracking-widest">End of Collection</p>
-                </div>
-              )}
-            </>
-          )}
-        </div>
+        <div className="relative group">
+          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 transition-opacity duration-300 ${loading && products.length > 0 ? 'opacity-50 pointer-events-none' : ''}`}>
+            {loading && products.length === 0 ? (
+              <div className="col-span-4 text-center py-20">
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse inline-block"></span>
+                <span className="ml-2 text-xs font-bold uppercase tracking-widest text-slate-400">Loading Gallery...</span>
+              </div>
+            ) : error ? (
+              <div className="col-span-4 text-center py-20 text-red-500 bg-red-50/10 rounded-lg border border-red-500/20">
+                <p className="font-bold mb-2">⚠ ERROR LOADING PRODUCTS</p>
+                <code className="text-sm opacity-80">{error}</code>
+              </div>
+            ) : (
+              <>
+                {products.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+                {products.length === 0 && (
+                  <div className="col-span-4 text-center py-20">
+                    <p className="text-slate-500 text-sm uppercase tracking-widest">End of Collection</p>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
 
-        {/* Pagination Controls */}
-        <div className="flex justify-center mt-20 gap-4">
+          {/* Side Navigation Arrows */}
           <button
             onClick={handlePrevPage}
             disabled={page === 1 || loading}
-            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="absolute top-1/2 -left-20 -translate-y-1/2 w-14 h-14 rounded-full bg-white/30 dark:bg-black/30 backdrop-blur-md border border-white/20 dark:border-white/10 text-slate-900 dark:text-white flex items-center justify-center hover:bg-white/50 dark:hover:bg-black/50 hover:scale-110 disabled:opacity-0 disabled:cursor-not-allowed transition-all shadow-2xl z-10 opacity-0 group-hover:opacity-100"
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <span className="material-symbols-outlined text-2xl font-bold">arrow_back</span>
           </button>
-          <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Page {page}</span>
+
           <button
             onClick={handleNextPage}
-            disabled={products.length < ITEMS_PER_PAGE || loading} // Simple check: if less than limit, probably last page
-            className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            disabled={products.length < ITEMS_PER_PAGE || loading}
+            className="absolute top-1/2 -right-20 -translate-y-1/2 w-14 h-14 rounded-full bg-white/30 dark:bg-black/30 backdrop-blur-md border border-white/20 dark:border-white/10 text-slate-900 dark:text-white flex items-center justify-center hover:bg-white/50 dark:hover:bg-black/50 hover:scale-110 disabled:opacity-0 disabled:cursor-not-allowed transition-all shadow-2xl z-10 opacity-0 group-hover:opacity-100"
           >
-            <span className="material-symbols-outlined">arrow_forward</span>
+            <span className="material-symbols-outlined text-2xl font-bold">arrow_forward</span>
           </button>
+        </div>
+
+        {/* Page Indicator (Bottom) */}
+        <div className="flex justify-center mt-12">
+          <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Page {page}</span>
         </div>
       </section>
 
