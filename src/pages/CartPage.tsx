@@ -59,10 +59,10 @@ const CartPage: React.FC = () => {
           <div className="mb-16">
             <a href="#/" className="inline-flex items-center text-sm font-bold uppercase tracking-[0.2em] text-slate-500 bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-primary transition-all group mb-8">
               <span className="material-symbols-outlined text-lg mr-3 group-hover:-translate-x-1 transition-transform">arrow_back</span>
-              Return to Gallery
+              Voltar
             </a>
-            <h1 className="text-5xl font-display font-bold tracking-tight text-slate-900 dark:text-white">Your Selections</h1>
-            <p className="text-slate-400 mt-2 font-medium">Review your curated basket before checkout.</p>
+            <h1 className="text-5xl font-display font-bold tracking-tight text-slate-900 dark:text-white">Seu Carrinho</h1>
+            <p className="text-slate-400 mt-2 font-medium">Revise seus itens antes de realizar o pagamento.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
@@ -100,7 +100,7 @@ const CartPage: React.FC = () => {
                         onClick={() => handleRemove(idx)}
                         className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors flex items-center gap-2"
                       >
-                        <span className="material-symbols-outlined text-lg">delete</span> Remove Item
+                        <span className="material-symbols-outlined text-lg">delete</span> Remover Item
                       </button>
                     </div>
                   </div>
@@ -110,7 +110,7 @@ const CartPage: React.FC = () => {
 
             <div className="lg:col-span-4">
               <div className="sticky top-40 bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-[2.5rem] p-10 shadow-2xl">
-                <h2 className="text-2xl font-display font-bold mb-10 tracking-tight">Order Insight</h2>
+                <h2 className="text-2xl font-display font-bold mb-10 tracking-tight">DETALHES DO PEDIDO</h2>
                 <div className="space-y-6 mb-10">
                   <div className="flex justify-between text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-widest">
                     <span>Subtotal</span>
@@ -121,7 +121,7 @@ const CartPage: React.FC = () => {
                     <span className="text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/20 px-3 py-1 rounded-full text-xs font-bold">GRÁTIS</span>
                   </div>
                   <div className="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col items-end">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-2">Total Amount</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-2">Valor Total</span>
                     <p className="text-4xl font-display font-bold tracking-tighter text-slate-900 dark:text-white">{formatPrice(total)}</p>
                   </div>
                 </div>
@@ -129,10 +129,10 @@ const CartPage: React.FC = () => {
                   href="#/checkout"
                   className="w-full inline-block text-center py-6 bg-primary text-white rounded-2xl font-bold text-sm uppercase tracking-[0.2em] hover:opacity-90 active:scale-[0.98] transition-all mb-6 shadow-2xl shadow-primary/30"
                 >
-                  Proceed to Checkout
+                  Realizar Pagamento
                 </a>
                 <div className="flex items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                  <span className="material-symbols-outlined text-lg">lock</span> 256-Bit Encrypted Secure Connection
+                  <span className="material-symbols-outlined text-lg">lock</span> Pagamento Seguro
                 </div>
               </div>
             </div>

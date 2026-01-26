@@ -127,7 +127,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
           <a href="#/collection" className="group flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-primary hover:text-slate-900 dark:hover:text-white transition-colors">
-            View All Selections
+            Ver todos
             <span className="w-10 h-10 rounded-full border border-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </span>

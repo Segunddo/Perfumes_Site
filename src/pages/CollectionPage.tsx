@@ -8,7 +8,7 @@ import { Product } from '../types';
 const CollectionPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
+    const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
     const [page, setPage] = useState(1);
     const ITEMS_PER_PAGE = 15;
 
@@ -30,7 +30,7 @@ const CollectionPage: React.FC = () => {
                 // WAIT. Backend "q" checks category too.
                 // So if we select "Smartphones", we can send q=Smartphones.
 
-                const query = selectedCategory === 'All' ? '' : selectedCategory;
+                const query = selectedCategory === 'Todos' ? '' : selectedCategory;
                 const data = await getProducts(query, page, ITEMS_PER_PAGE);
                 setProducts(data);
             } catch (e) {
@@ -51,17 +51,7 @@ const CollectionPage: React.FC = () => {
         setProducts([]);
     }, [selectedCategory]);
 
-    // Extract unique categories (Note: Ideally this comes from backend API /api/categories)
-    // For now we hardcode or just keep "All", "Smartphones", etc. if we knew them.
-    // Or we fetch ALL products once just to get categories? That defeats the purpose of pagination.
-    // Let's rely on the hardcoded CATEGORIES from backend or fetch /api/categories if we had that endpoint exposed properly to frontend.
-    // The backend DOES export CATEGORIES in index.js but we need to fetch it.
-    // For simplicity, I will use a static list or fetching categories separately if needed. 
-    // Assuming backend provides /api/categories... which it does! 
-    // Wait, productService has `getCategories`. Let's use that.
-
-    // Changing approach: Let's fetch categories from /api/categories to populate sidebar
-    const [categories, setCategories] = useState<string[]>(['All']);
+    const [categories, setCategories] = useState<string[]>(['Todos']);
 
     useEffect(() => {
         const fetchCats = async () => {
@@ -89,7 +79,7 @@ const CollectionPage: React.FC = () => {
             // Actually, I can just fetch it directly or use the service.
             // Let's stick to modifying the categories state logic to dynamic.
             fetch('http://localhost:5001/api/categories').then(res => res.json()).then((data: any[]) => {
-                setCategories(['All', ...data.map(c => c.title)]);
+                setCategories(['Todos', ...data.map(c => c.title)]);
             }).catch(err => console.error("Failed to fetch categories", err));
         };
         fetchCats();
@@ -104,8 +94,8 @@ const CollectionPage: React.FC = () => {
                 <aside className="w-full md:w-64 flex-shrink-0 animate-in fade-in slide-in-from-left-4 duration-700">
                     <div className="sticky top-32 space-y-8">
                         <div>
-                            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2">Departments</h2>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Select Category</p>
+                            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white mb-2">Departamentos</h2>
+                            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Selecione uma categoria</p>
                         </div>
 
                         <nav className="space-y-2">
@@ -126,11 +116,6 @@ const CollectionPage: React.FC = () => {
                             ))}
                         </nav>
 
-                        <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10 text-primary hidden md:block">
-                            <span className="material-symbols-outlined text-3xl mb-3">diamond</span>
-                            <p className="font-bold text-sm mb-1">Premium Member?</p>
-                            <p className="text-[10px] opacity-70 leading-relaxed">Log in to unlock exclusive collections and pre-order access.</p>
-                        </div>
                     </div>
                 </aside>
 
@@ -140,7 +125,7 @@ const CollectionPage: React.FC = () => {
                         <div>
                             <h1 className="text-4xl font-display font-bold text-slate-900 dark:text-white tracking-tight">{selectedCategory}</h1>
                             <p className="text-slate-400 mt-2 font-medium">
-                                Showing {products.length} curated items
+                                Total de {products.length} produtos
                             </p>
                         </div>
                     </div>
@@ -155,7 +140,7 @@ const CollectionPage: React.FC = () => {
                         <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 transition-opacity duration-300 ${loading ? 'opacity-50 pointer-events-none' : ''}`}>
                             {products.length === 0 ? (
                                 <div className="col-span-3 text-center py-20">
-                                    <p className="text-slate-500 font-medium">No more products in this collection.</p>
+                                    <p className="text-slate-500 font-medium">Sem produtos.</p>
                                 </div>
                             ) : (
                                 products.map((product) => (

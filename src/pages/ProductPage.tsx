@@ -145,27 +145,27 @@ const ProductPage: React.FC = () => {
                 onClick={handleAddToCart}
                 className="flex-1 py-6 bg-primary text-white rounded-[1.5rem] font-bold text-sm uppercase tracking-[0.2em] hover:opacity-90 transition-all shadow-2xl shadow-primary/30 flex items-center justify-center gap-4 group"
               >
-                <span className="material-symbols-outlined group-hover:scale-110 transition-transform">shopping_bag</span> Add to Bag
+                <span className="material-symbols-outlined group-hover:scale-110 transition-transform">shopping_bag</span> Adicionar ao carrinho
               </button>
             </div>
 
             <div className="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-12">
               <div className="flex items-start gap-5">
                 <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary">local_shipping</span>
+                  <span className="material-symbols-outlined text-primary">verified_user</span>
                 </div>
                 <div>
-                  <p className="font-bold text-xs uppercase tracking-widest mb-1">Express Delivery</p>
-                  <p className="text-[11px] text-slate-500 font-medium">24-48 hours premium courier</p>
+                  <p className="font-bold text-xs uppercase tracking-widest mb-1">Pagamento 100% Seguro</p>
+                  <p className="text-[11px] text-slate-500 font-medium">Nossos pagamentos são processados com segurança pela IZEPAY, seus dados estão protegidos.</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
                 <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary">verified_user</span>
+                  <span className="material-symbols-outlined text-primary">credit_card</span>
                 </div>
                 <div>
-                  <p className="font-bold text-xs uppercase tracking-widest mb-1">Global Warranty</p>
-                  <p className="text-[11px] text-slate-500 font-medium">3-year comprehensive plan</p>
+                  <p className="font-bold text-xs uppercase tracking-widest mb-1">Parcele em até 12x no cartão!</p>
+                  <p className="text-[11px] text-slate-500 font-medium">As compras realizadas pelo cartão de crédito possuem segurança antifraude e são enviados imediatamente.</p>
                 </div>
               </div>
             </div>
