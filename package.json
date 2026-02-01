@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server/index.js",
-    "render-build": "npm install && npm run build && cd server && npm install"
+    "render-build": "npm install && npm run build"
   },
   "dependencies": {
     "@google/genai": "^1.38.0",
