@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const { initDb, run, get, all, isPostgres } = require('./db');
+const { initDb, run, get, all, isPostgres } = require('./db.cjs');
 
 const fs = require('fs');
 const multer = require('multer');
