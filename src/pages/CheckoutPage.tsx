@@ -26,39 +26,16 @@ interface FormData {
   email: string; // Optional
   cpf: string;
 
-  // Address
-  cep: string;
-  street: string;
-  number: string;
-  neighborhood: string;
-  city: string;
-  state: string;
-
-  // Payment
-  cardHolder: string;
-  cardNumber: string;
-  expiry: string;
-  cvv: string;
+  // Address - Removed
 }
 
 const CheckoutPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'pix' | 'boleto'>('card');
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     phone: '',
     email: '',
     cpf: '',
-    cep: '',
-    street: '',
-    number: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-    cardHolder: '',
-    cardNumber: '',
-    expiry: '',
-    cvv: ''
   });
 
   useEffect(() => {
@@ -74,15 +51,9 @@ const CheckoutPage: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    const numericFields = ['cpf', 'phone', 'cep', 'number', 'cardNumber', 'cvv', 'expiry'];
+    const numericFields = ['cpf', 'phone'];
 
     if (numericFields.includes(name)) {
-      if (name === 'expiry') {
-        const numericValue = value.replace(/[^0-9/]/g, '');
-        setFormData(prev => ({ ...prev, [name]: numericValue }));
-        return;
-      }
-
       const numericValue = value.replace(/\D/g, '');
       setFormData(prev => ({ ...prev, [name]: numericValue }));
       return;
@@ -93,7 +64,29 @@ const CheckoutPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Order Placed for ${formatPrice(total)} via ${paymentMethod.toUpperCase()}! An advisor will contact you shortly.`);
+
+    const itemsList = cartItems.map(item =>
+      `- ${item.quantity || 1}x ${item.name} (${item.price})`
+    ).join('\n');
+
+    const message = `*Novo Pedido - Marta Perfumes*
+
+*Dados do Cliente:*
+Nome: ${formData.fullName}
+Telefone: ${formData.phone}
+CPF: ${formData.cpf}
+
+*Itens do Pedido:*
+${itemsList}
+
+*Total do Pedido:* ${formatPrice(total)}
+
+--------------------------------
+Aguardo contato para finalizar o pagamento e combinar a entrega.`;
+    const targetNumber: number = 5583996394713;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${targetNumber}?text=${encodedMessage}`, '_blank');
   };
 
   return (
@@ -142,102 +135,25 @@ const CheckoutPage: React.FC = () => {
                 </div>
               </section>
 
-              {/* Address Section */}
-              <section className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 p-10 space-y-6">
-                <div className="flex items-center gap-4 mb-2">
-                  <span className="material-symbols-outlined text-primary text-2xl">home_pin</span>
-                  <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Endereço</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                  <div className="md:col-span-4 space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">CEP *</label>
-                    <input required name="cep" value={formData.cep} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="00000-000" type="text" />
-                  </div>
-                  <div className="md:col-span-8 space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Endereço *</label>
-                    <input required name="street" value={formData.street} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="Av. Brigadeiro Faria Lima" type="text" />
-                  </div>
-                  <div className="md:col-span-4 space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Número *</label>
-                    <input required name="number" value={formData.number} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="123" type="text" />
-                  </div>
-                  <div className="md:col-span-8 space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Bairro *</label>
-                    <input required name="neighborhood" value={formData.neighborhood} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="Jardim Paulistano" type="text" />
-                  </div>
-                  <div className="md:col-span-8 space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Cidade *</label>
-                    <input required name="city" value={formData.city} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="São Paulo" type="text" />
-                  </div>
-                  <div className="md:col-span-4 space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Estado *</label>
-                    <input required name="state" value={formData.state} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="SP" type="text" />
-                  </div>
-                </div>
-              </section>
 
-              {/* Delivery Method */}
-              <section className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 p-10 space-y-6">
-                <div className="flex items-center gap-4 mb-2">
-                  <span className="material-symbols-outlined text-primary text-2xl">local_shipping</span>
-                  <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Forma de Entrega</h2>
-                </div>
-                <div className="p-6 rounded-2xl border-2 border-primary/20 bg-primary/5 flex items-center justify-between">
-                  <div>
-                    <p className="font-bold text-slate-900 dark:text-white">Envio Padrão</p>
-                    <p className="text-xs text-slate-500 mt-1">Frete Grátis (2 à 7 dias úteis)</p>
-                  </div>
-                  <span className="text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/20 px-3 py-1 rounded-full text-xs font-bold">GRÁTIS</span>
-                </div>
-              </section>
 
-              {/* Payment Section */}
+
+              {/* Payment Notification Section */}
               <section className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 p-10 space-y-8">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="material-symbols-outlined text-primary text-2xl">payments</span>
-                  <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Método de Pagamento</h2>
+                  <span className="material-symbols-outlined text-primary text-2xl">support_agent</span>
+                  <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Pagamento / Finalização</h2>
                 </div>
 
-                <div className="flex gap-4 mb-8">
-                  <button type="button" onClick={() => setPaymentMethod('card')} className={`flex-1 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all border-2 ${paymentMethod === 'card' ? 'border-primary bg-primary/10 text-primary' : 'border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/50'}`}>Cartão de Crédito</button>
-                  <button type="button" onClick={() => setPaymentMethod('pix')} className={`flex-1 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all border-2 ${paymentMethod === 'pix' ? 'border-primary bg-primary/10 text-primary' : 'border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/50'}`}>Pix</button>
-                  <button type="button" onClick={() => setPaymentMethod('boleto')} className={`flex-1 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all border-2 ${paymentMethod === 'boleto' ? 'border-primary bg-primary/10 text-primary' : 'border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/50'}`}>Boleto</button>
+                <div className="p-6 rounded-2xl border-2 border-primary/20 bg-primary/5 flex flex-col items-center text-center animate-in fade-in duration-500">
+                  <div className="w-16 h-16 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center mb-4 shadow-sm">
+                    <span className="material-symbols-outlined text-primary text-3xl">mark_chat_read</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Finalizar Pedido</h3>
+                  <p className="text-slate-500 text-sm max-w-sm">
+                    Após reservar seu pedido, um de nossos atendentes entrará em contato para combinar o pagamento e a entrega.
+                  </p>
                 </div>
-
-                {paymentMethod === 'card' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in slide-in-from-top-4 duration-500">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Nome do Titular *</label>
-                      <input required name="cardHolder" value={formData.cardHolder} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="JOHN DOE" type="text" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Número do Cartão *</label>
-                      <input required name="cardNumber" value={formData.cardNumber} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="•••• •••• •••• ••••" type="text" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Data de Expiração *</label>
-                      <input required name="expiry" value={formData.expiry} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="MM / YY" type="text" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">CVV *</label>
-                      <input required name="cvv" value={formData.cvv} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="123" type="password" />
-                    </div>
-                  </div>
-                )}
-
-                {paymentMethod === 'pix' && (
-                  <div className="text-center py-10 animate-in fade-in slide-in-from-top-4 duration-500">
-                    <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">qr_code_2</span>
-                    <p className="text-slate-500 max-w-md mx-auto">Complete your order to generate a standard Pix QR Code. Payment is instant and secure.</p>
-                  </div>
-                )}
-
-                {paymentMethod === 'boleto' && (
-                  <div className="text-center py-10 animate-in fade-in slide-in-from-top-4 duration-500">
-                    <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">barcode</span>
-                    <p className="text-slate-500 max-w-md mx-auto">A boletos bank slip will be generated after confirming your order. It may take up to 3 business days to clear.</p>
-                  </div>
-                )}
               </section>
             </div>
           </div>
@@ -265,10 +181,6 @@ const CheckoutPage: React.FC = () => {
               </div>
 
               <div className="border-t border-slate-100 dark:border-slate-800 pt-8 space-y-4">
-                <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                  <span>FRETE:</span>
-                  <span className="text-emerald-500">GRÁTIS</span>
-                </div>
                 <div className="flex justify-between items-baseline">
                   <span className="text-sm font-bold uppercase tracking-widest text-slate-900 dark:text-white">Total:</span>
                   <span className="text-4xl font-display font-bold text-primary tracking-tighter">{formatPrice(total)}</span>
@@ -279,7 +191,7 @@ const CheckoutPage: React.FC = () => {
                 type="submit"
                 className={`w-full mt-10 bg-slate-900 dark:bg-primary text-white font-bold py-6 rounded-2xl shadow-2xl hover:opacity-95 transition-all flex items-center justify-center gap-4 text-sm uppercase tracking-widest ${cartItems.length === 0 ? 'opacity-50 pointer-events-none' : ''}`}
               >
-                <span className="material-symbols-outlined text-xl">lock</span> Realizar Pagamento
+                <span className="material-symbols-outlined text-xl">lock</span> Reservar Pedido
               </button>
             </div>
           </aside>

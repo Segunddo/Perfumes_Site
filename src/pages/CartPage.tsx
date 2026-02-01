@@ -62,7 +62,7 @@ const CartPage: React.FC = () => {
               Voltar
             </a>
             <h1 className="text-5xl font-display font-bold tracking-tight text-slate-900 dark:text-white">Seu Carrinho</h1>
-            <p className="text-slate-400 mt-2 font-medium">Revise seus itens antes de realizar o pagamento.</p>
+            <p className="text-slate-400 mt-2 font-medium">Revise seus itens antes de finalizar o pedido.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
@@ -115,10 +115,6 @@ const CartPage: React.FC = () => {
                   <div className="flex justify-between text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-widest">
                     <span>Subtotal</span>
                     <span>{formatPrice(total)}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-widest">
-                    <span>VALOR DO FRETE</span>
-                    <span className="text-emerald-600 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/20 px-3 py-1 rounded-full text-xs font-bold">GRÁTIS</span>
                   </div>
                   <div className="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col items-end">
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-2">Valor Total</span>

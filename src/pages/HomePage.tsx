@@ -4,6 +4,10 @@ import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../services/productService';
 import { Product } from '../types';
+import banner1 from '../assets/banner1.png';
+import banner2 from '../assets/banner2.png';
+import banner3 from '../assets/banner3.png';
+import banner4 from '../assets/banner4.png';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -54,10 +58,10 @@ const HomePage: React.FC = () => {
       <section className="relative h-[65vh] min-h-[400px] flex items-center overflow-hidden">
         {/* Carousel Backgrounds */}
         {[
-          "https://izeshop.com.br/wp-content/uploads/2024/01/banner-izeshop-desktop-1.jpg",
-          "https://izeshop.com.br/wp-content/uploads/2024/01/banner-izeshop-desktop-2.jpg",
-          "https://izeshop.com.br/wp-content/uploads/2024/01/banner-izeshop-desktop-3.jpg",
-          "https://izeshop.com.br/wp-content/uploads/2023/08/HOME-IZSEHOP2.webp"
+          banner1,
+          banner2,
+          banner3,
+          banner4
         ].map((img, index) => (
           <div
             key={index}
@@ -93,10 +97,10 @@ const HomePage: React.FC = () => {
       <div className="bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-12">
           {[
-            { icon: 'local_shipping', title: 'Frete Grátis', desc: 'Entrega em todo Brasil' },
-            { icon: 'credit_card', title: 'Parcelamento', desc: 'Em 12x nos Cartões' },
-            { icon: 'verified_user', title: 'Compra Segura', desc: 'Ambiente seguro para pagamentos online' },
-            { icon: 'support_agent', title: 'Satisfação Garantida', desc: 'Você 100% feliz ou seu reembolso garantido' }
+            { icon: 'local_shipping', title: 'Frete Grátis', desc: 'Para retirada em João Pessoa - PB' },
+            { icon: 'payment', title: 'Pagamento Facilitado', desc: 'Combine diretamente no WhatsApp' },
+            { icon: 'verified_user', title: 'Qualidade', desc: 'Produtos de qualidade' },
+            { icon: 'support_agent', title: 'Atendimento', desc: 'Atendimento rápido e eficiente' }
           ].map((badge, i) => (
             <div key={badge.icon} className="flex flex-col items-center text-center p-6 bg-white dark:bg-slate-800 rounded-[2rem] shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800">
               <span className="material-symbols-outlined text-primary text-4xl mb-4">{badge.icon}</span>
@@ -153,7 +157,7 @@ const HomePage: React.FC = () => {
                 ))}
                 {products.length === 0 && (
                   <div className="col-span-4 text-center py-20">
-                    <p className="text-slate-500 text-sm uppercase tracking-widest">End of Collection</p>
+                    <p className="text-slate-500 text-sm uppercase tracking-widest">Fim da coleção</p>
                   </div>
                 )}
               </>
@@ -187,9 +191,9 @@ const HomePage: React.FC = () => {
       {/* Brand Ethos */}
       <section className="py-32 bg-slate-900 text-white overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-          <h3 className="text-[11px] font-bold uppercase tracking-[0.5em] text-primary mb-8 animate-pulse">Our Philosophy</h3>
+          <h3 className="text-[11px] font-bold uppercase tracking-[0.5em] text-primary mb-8 animate-pulse">Qualidade</h3>
           <p className="text-3xl md:text-5xl font-display font-light leading-relaxed max-w-4xl tracking-tight">
-            "We believe luxury is not about the price, but the <span className="font-bold text-primary italic">uncompromising fusion</span> of utility and soul."
+            Os melhores produtos para você <span className="font-bold text-primary italic">com qualidade</span>.
           </p>
           <div className="mt-16 w-px h-24 bg-primary"></div>
         </div>

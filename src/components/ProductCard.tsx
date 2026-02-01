@@ -36,12 +36,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <span className="font-bold text-lg text-slate-900 dark:text-white">{product.price}</span>
         </div>
         <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">{product.category}</p>
-        <div className="flex items-center mt-2 space-x-1">
-          {[...Array(5)].map((_, i) => (
-            <span key={i} className={`material-symbols-outlined text-[14px] ${i < Math.floor(product.rating) ? 'text-primary fill-1' : 'text-slate-300'}`}>star</span>
-          ))}
-          <span className="text-[10px] text-slate-400 ml-1">({product.reviews})</span>
-        </div>
       </div>
     </a>
   );

@@ -71,7 +71,7 @@ const ProductPage: React.FC = () => {
           className="mb-12 inline-flex items-center text-sm font-bold uppercase tracking-widest text-slate-500 bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-primary transition-all group"
         >
           <span className="material-symbols-outlined mr-3 text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
-          Back to Selection
+          Voltar
         </a>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -83,13 +83,6 @@ const ProductPage: React.FC = () => {
                 alt={product.name}
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
-            </div>
-            <div className="grid grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} className="aspect-square rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 hover:border-primary cursor-pointer transition-all overflow-hidden group">
-                  <img src={product.img} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" alt="thumbnail" />
-                </div>
-              ))}
             </div>
           </div>
 
@@ -104,14 +97,6 @@ const ProductPage: React.FC = () => {
               </h1>
               <div className="flex items-center gap-8">
                 <div className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">{product.price}</div>
-                <div className="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center bg-slate-100 dark:bg-slate-800 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800">
-                    <span className="material-symbols-outlined text-primary fill-1 text-base">star</span>
-                    <span className="ml-2 font-bold text-sm">{product.rating}</span>
-                  </div>
-                  <span className="text-slate-400 text-xs font-medium uppercase tracking-widest ml-2">({product.reviews} reviews)</span>
-                </div>
               </div>
             </div>
 
@@ -121,7 +106,7 @@ const ProductPage: React.FC = () => {
 
             <div className="space-y-10 mb-12">
               <div className="flex items-center gap-8">
-                <span className="font-bold text-[10px] uppercase tracking-[0.2em] w-24 text-slate-400">Quantity</span>
+                <span className="font-bold text-[10px] uppercase tracking-[0.2em] w-24 text-slate-400">Quantidade</span>
                 <div className="flex items-center bg-slate-50 dark:bg-slate-800 rounded-full p-1.5 border border-slate-200 dark:border-slate-700">
                   <button
                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
@@ -149,23 +134,23 @@ const ProductPage: React.FC = () => {
               </button>
             </div>
 
-            <div className="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-12">
+            <div className="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-12">
               <div className="flex items-start gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary">verified_user</span>
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                  <span className="material-symbols-outlined text-primary">payment</span>
                 </div>
                 <div>
-                  <p className="font-bold text-xs uppercase tracking-widest mb-1">Pagamento 100% Seguro</p>
-                  <p className="text-[11px] text-slate-500 font-medium">Nossos pagamentos são processados com segurança pela IZEPAY, seus dados estão protegidos.</p>
+                  <p className="font-bold text-xs uppercase tracking-widest mb-1 text-slate-900 dark:text-white">Pagamento Facilitado</p>
+                  <p className="text-[11px] text-slate-500 font-medium">Combine diretamente no WhatsApp.</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary">credit_card</span>
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                  <span className="material-symbols-outlined text-primary">verified_user</span>
                 </div>
                 <div>
-                  <p className="font-bold text-xs uppercase tracking-widest mb-1">Parcele em até 12x no cartão!</p>
-                  <p className="text-[11px] text-slate-500 font-medium">As compras realizadas pelo cartão de crédito possuem segurança antifraude e são enviados imediatamente.</p>
+                  <p className="font-bold text-xs uppercase tracking-widest mb-1 text-slate-900 dark:text-white">Garantia Marta Perfumes</p>
+                  <p className="text-[11px] text-slate-500 font-medium">Qualidade e excelência garantidas.</p>
                 </div>
               </div>
             </div>

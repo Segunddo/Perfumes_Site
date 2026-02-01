@@ -31,8 +31,8 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
               <span className="material-symbols-outlined text-white">grid_view</span>
             </div>
             <div>
-              <h2 className="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight uppercase">Ize Collection</h2>
-              <p className="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Select your department</p>
+              <h2 className="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight uppercase">Ize Parfums</h2>
+              <p className="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Selecione a Categoria</p>
             </div>
           </div>
           <button
@@ -45,7 +45,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
 
         <div className="flex flex-1 overflow-hidden">
           <aside className="w-80 border-r border-gray-100 dark:border-gray-800 flex flex-col bg-gray-50/30 dark:bg-gray-950/40 p-8 shrink-0">
-            <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">Main Departments</h3>
+            <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">Departamentos</h3>
             <nav className="space-y-2">
               {categories.slice(0, 5).map((cat, i) => (
                 <button
@@ -63,9 +63,9 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
             <div className="mt-auto">
               <div className="p-6 rounded-3xl bg-gradient-to-br from-primary to-blue-900 text-white relative overflow-hidden">
                 <div className="relative z-10">
-                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-2">PRO Membership</p>
-                  <p className="text-sm font-semibold mb-5 leading-tight">Unlock free express shipping on all premium items.</p>
-                  <button className="w-full py-3 bg-white text-primary text-xs font-bold rounded-xl shadow-lg hover:bg-opacity-90 transition-all">Upgrade Now</button>
+                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-2">Clube VIP</p>
+                  <p className="text-sm font-semibold mb-5 leading-tight">Frete grátis em todos os itens premium.</p>
+                  <button className="w-full py-3 bg-white text-primary text-xs font-bold rounded-xl shadow-lg hover:bg-opacity-90 transition-all">Assinar Agora</button>
                 </div>
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
               </div>
@@ -74,8 +74,8 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
 
           <main className="flex-1 overflow-y-auto p-10 bg-white dark:bg-slate-900 custom-scrollbar">
             <div className="mb-10">
-              <h1 className="text-4xl font-display font-bold text-gray-900 dark:text-white tracking-tight">Tech & Lifestyle</h1>
-              <p className="text-slate-400 mt-2">Discover our most innovative collection yet.</p>
+              <h1 className="text-4xl font-display font-bold text-gray-900 dark:text-white tracking-tight">Perfumes Exclusivos</h1>
+              <p className="text-slate-400 mt-2">Descubra a sua nova assinatura olfativa.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -94,7 +94,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
                     </div>
                   </div>
                   <h4 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-primary transition-colors">{cat.title}</h4>
-                  <p className="text-xs text-slate-400 mt-1">Explore our premium {cat.title.toLowerCase()} collection.</p>
+                  <p className="text-xs text-slate-400 mt-1">Explore a coleção {cat.title.toLowerCase()}.</p>
                 </div>
               ))}
             </div>

@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className={`flex-shrink-0 flex items-center transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <a href="#/" className="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
-              IZE<span className="text-primary">SHOP</span>
+              PER<span className="text-primary">FUMES</span>
             </a>
           </div>
 
@@ -110,7 +110,7 @@ const Header: React.FC = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Searching for excellence..."
+                placeholder="Pesquisar..."
                 className="flex-1 bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder-slate-400 font-medium text-lg outline-none"
                 onKeyDown={(e) => e.key === 'Escape' && closeSearch()}
               />
@@ -127,7 +127,7 @@ const Header: React.FC = () => {
               <div className="w-full max-w-2xl mt-4 bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-2xl overflow-hidden transition-all duration-300">
                 {filteredProducts.length > 0 ? (
                   <div className="p-4">
-                    <p className="px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Curated Results</p>
+                    <p className="px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Resultados</p>
                     <div className="space-y-1">
                       {filteredProducts.map(product => (
                         <a
@@ -157,7 +157,7 @@ const Header: React.FC = () => {
                 ) : (
                   <div className="p-10 text-center">
                     <span className="material-symbols-outlined text-4xl text-slate-200 mb-4">search_off</span>
-                    <p className="text-slate-500 font-medium">No masterpieces found for "{searchQuery}"</p>
+                    <p className="text-slate-500 font-medium">Nada encontrado para "{searchQuery}"</p>
                   </div>
                 )}
               </div>
