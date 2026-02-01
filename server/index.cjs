@@ -22,7 +22,7 @@ if (!fs.existsSync(uploadDir)) {
 // Multer Storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         // Sanitize: remove special chars and spaces, lower case extension
@@ -245,6 +245,15 @@ app.use(express.static(path.join(__dirname, '../dist')));
 // match one above, send back React's index.html file.
 app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        error: err.message || 'Internal Server Error',
+        details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
