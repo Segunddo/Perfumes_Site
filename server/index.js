@@ -227,11 +227,20 @@ app.put('/api/cart/:index', (req, res) => {
 // LOGIN
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
-    if (password === 'admin123') { // In production, use env var
+    if (password === process.env.ADMIN_PASSWORD) { // In production, use env var
         res.json({ success: true });
     } else {
         res.status(401).json({ success: false, message: 'Senha Incorreta' });
     }
+});
+
+// Serve static files from React app
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get(/(.*)/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {

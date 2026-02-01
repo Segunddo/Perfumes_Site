@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+product-images/
+server/uploads/
+server/database.sqlite
+.DS_Store

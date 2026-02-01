@@ -78,7 +78,7 @@ const CollectionPage: React.FC = () => {
             // I will modify the import on top of file in next step if needed, or assume it's there?
             // Actually, I can just fetch it directly or use the service.
             // Let's stick to modifying the categories state logic to dynamic.
-            fetch('http://localhost:5001/api/categories').then(res => res.json()).then((data: any[]) => {
+            fetch('/api/categories').then(res => res.json()).then((data: any[]) => {
                 setCategories(['Todos', ...data.map(c => c.title)]);
             }).catch(err => console.error("Failed to fetch categories", err));
         };
