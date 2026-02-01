@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const { initDb, run, get, all } = require('./db');
+const { initDb, run, get, all, isPostgres } = require('./db');
 
 const fs = require('fs');
 const multer = require('multer');
@@ -149,7 +149,7 @@ app.post('/api/products', upload.single('image'), async (req, res) => {
     try {
         const result = await run(
             `INSERT INTO products (name, price, category, img, description, tag, oldPrice, rating, reviews) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0)`,
+             VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0) ${isPostgres ? 'RETURNING id' : ''}`,
             [name, price, category, img, description, tag, oldPrice]
         );
         res.json({ id: result.id, message: 'Product created' });
