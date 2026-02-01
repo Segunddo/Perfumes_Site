@@ -139,13 +139,16 @@ const AdminPage: React.FC = () => {
                 body: data
             });
 
-            if (!res.ok) throw new Error('Falha ao salvar');
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || 'Falha ao salvar');
+            }
 
             setIsModalOpen(false);
             fetchProducts(); // Refresh list
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert('Erro ao salvar produto');
+            alert(`Erro ao salvar produto: ${err.message}`);
         }
     };
 
