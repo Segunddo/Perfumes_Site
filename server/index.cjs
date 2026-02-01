@@ -141,8 +141,10 @@ app.post('/api/products', upload.single('image'), async (req, res) => {
     let img = valImg;
 
     if (req.file) {
-        // Force localhost for development
-        img = `http://localhost:5001/uploads/${req.file.filename}`;
+        // Use relative path or construct dynamic URL
+        const protocol = req.protocol;
+        const host = req.get('host');
+        img = `${protocol}://${host}/uploads/${req.file.filename}`;
         console.log("Image uploaded:", img);
     }
 
@@ -164,8 +166,10 @@ app.put('/api/products/:id', upload.single('image'), async (req, res) => {
     let img = valImg; // Default to existing URL or hidden input
 
     if (req.file) {
-        // Force localhost for development
-        img = `http://localhost:5001/uploads/${req.file.filename}`;
+        // Use relative path or construct dynamic URL
+        const protocol = req.protocol;
+        const host = req.get('host');
+        img = `${protocol}://${host}/uploads/${req.file.filename}`;
         console.log("Image updated:", img);
     }
 
