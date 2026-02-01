@@ -95,7 +95,7 @@ const HomePage: React.FC = () => {
       </section>
       {/* Trust Badges */}
       <div className="bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-12">
+        <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12">
           {[
             { icon: 'local_shipping', title: 'Frete Grátis', desc: 'Para retirada em João Pessoa - PB' },
             { icon: 'payment', title: 'Pagamento Facilitado', desc: 'Combine diretamente no WhatsApp' },
@@ -139,7 +139,7 @@ const HomePage: React.FC = () => {
         </div>
 
         <div className="relative group">
-          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 transition-opacity duration-300 ${loading && products.length > 0 ? 'opacity-50 pointer-events-none' : ''}`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 justify-items-center transition-opacity duration-300 ${loading && products.length > 0 ? 'opacity-50 pointer-events-none' : ''}`}>
             {loading && products.length === 0 ? (
               <div className="col-span-4 text-center py-20">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse inline-block"></span>
