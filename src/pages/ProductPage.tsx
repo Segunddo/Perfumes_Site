@@ -54,8 +54,8 @@ const ProductPage: React.FC = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-20">
-          <h2 className="text-3xl font-bold mb-4">Product Not Found</h2>
-          <a href="#/" className="px-6 py-3 bg-primary text-white rounded-xl font-bold uppercase tracking-widest text-xs">Return to Store</a>
+          <h2 className="text-3xl font-bold mb-4">Produto Não Encontrado</h2>
+          <a href="#/" className="px-6 py-3 bg-primary text-white rounded-xl font-bold uppercase tracking-widest text-xs">Voltar à Loja</a>
         </main>
         <Footer />
       </div>
@@ -101,7 +101,7 @@ const ProductPage: React.FC = () => {
             </div>
 
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-12 font-medium">
-              {product.description || "Designed for those who appreciate the finer details. Each piece in our collection is meticulously crafted to offer not just a product, but an experience. Elevate your daily routine with IzeShop excellence."}
+              {product.description || "Desenvolvido para aqueles que apreciam os detalhes mais finos. Cada peça de nossa coleção é meticulosamente trabalhada para oferecer não apenas um produto, mas uma experiência. Eleve sua rotina diária com a excelência da Marta Perfumes."}
             </p>
 
             <div className="space-y-10 mb-12">

@@ -55,11 +55,11 @@ const AdminPage: React.FC = () => {
             if (res.ok) {
                 setIsAuthenticated(true);
             } else {
-                alert('Incorrect Password');
+                alert('Senha Incorreta');
             }
         } catch (err) {
             console.error(err);
-            alert('Login failed');
+            alert('Falha no login');
         }
     };
 
@@ -139,7 +139,7 @@ const AdminPage: React.FC = () => {
                 body: data
             });
 
-            if (!res.ok) throw new Error('Failed to save');
+            if (!res.ok) throw new Error('Falha ao salvar');
 
             setIsModalOpen(false);
             fetchProducts(); // Refresh list
@@ -318,7 +318,7 @@ const AdminPage: React.FC = () => {
                                     <div className="w-full h-48 bg-slate-100 rounded-xl overflow-hidden mb-2">
                                         <img
                                             src={selectedFile ? URL.createObjectURL(selectedFile) : formData.img}
-                                            alt="Preview"
+                                            alt="Prévia"
                                             className="w-full h-full object-contain"
                                         />
                                     </div>

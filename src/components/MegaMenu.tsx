@@ -31,7 +31,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
               <span className="material-symbols-outlined text-white">grid_view</span>
             </div>
             <div>
-              <h2 className="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight uppercase">Ize Parfums</h2>
+              <h2 className="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight uppercase">Marta Perfumes</h2>
               <p className="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Selecione a Categoria</p>
             </div>
           </div>
@@ -90,7 +90,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ onClose }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
                     <div className="absolute bottom-4 left-4 flex items-center gap-2">
                       <span className="material-symbols-outlined text-white text-lg">{cat.icon}</span>
-                      <span className="text-[10px] font-bold text-white uppercase tracking-widest">{cat.count} Items</span>
+                      <span className="text-[10px] font-bold text-white uppercase tracking-widest">{cat.count} Itens</span>
                     </div>
                   </div>
                   <h4 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-primary transition-colors">{cat.title}</h4>

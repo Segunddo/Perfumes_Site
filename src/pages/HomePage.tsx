@@ -32,10 +32,10 @@ const HomePage: React.FC = () => {
       try {
         const data = await getProducts('', page, ITEMS_PER_PAGE);
         // If empty and page > 1, maybe go back? For now just show empty or handle gracefully.
-        if (data.length === 0 && page === 1) throw new Error("No products found (Connection failed?)");
+        if (data.length === 0 && page === 1) throw new Error("Nenhum produto encontrado (Falha na conexão?)");
         setProducts(data);
       } catch (err: any) {
-        setError(err.message || "Unknown Error");
+        setError(err.message || "Erro Desconhecido");
       } finally {
         setLoading(false);
       }
@@ -143,11 +143,11 @@ const HomePage: React.FC = () => {
             {loading && products.length === 0 ? (
               <div className="col-span-4 text-center py-20">
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse inline-block"></span>
-                <span className="ml-2 text-xs font-bold uppercase tracking-widest text-slate-400">Loading Gallery...</span>
+                <span className="ml-2 text-xs font-bold uppercase tracking-widest text-slate-400">Carregando Galeria...</span>
               </div>
             ) : error ? (
               <div className="col-span-4 text-center py-20 text-red-500 bg-red-50/10 rounded-lg border border-red-500/20">
-                <p className="font-bold mb-2">⚠ ERROR LOADING PRODUCTS</p>
+                <p className="font-bold mb-2">⚠ ERRO AO CARREGAR PRODUTOS</p>
                 <code className="text-sm opacity-80">{error}</code>
               </div>
             ) : (
@@ -184,7 +184,7 @@ const HomePage: React.FC = () => {
 
         {/* Page Indicator (Bottom) */}
         <div className="flex justify-center mt-12">
-          <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Page {page}</span>
+          <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Página {page}</span>
         </div>
       </section>
 

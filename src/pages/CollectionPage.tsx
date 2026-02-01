@@ -185,7 +185,7 @@ const CollectionPage: React.FC = () => {
                         >
                             <span className="material-symbols-outlined">arrow_back</span>
                         </button>
-                        <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Page {page}</span>
+                        <span className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400">Página {page}</span>
                         <button
                             onClick={handleNextPage}
                             disabled={products.length < ITEMS_PER_PAGE || loading}

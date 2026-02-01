@@ -94,7 +94,7 @@ Aguardo contato para finalizar o pagamento e combinar a entrega.`;
       <Header />
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-40 animate-in fade-in duration-1000 w-full">
         <div className="flex flex-wrap gap-4 mb-12 items-center">
-          <a href="#/" className="text-slate-400 text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full">Inicio</a>
+          <a href="#/" className="text-slate-400 text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full">Início</a>
           <span className="material-symbols-outlined text-slate-300 text-xs">chevron_right</span>
           <a href="#/cart" className="text-slate-400 text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full">Carrinho</a>
           <span className="material-symbols-outlined text-slate-300 text-xs">chevron_right</span>
@@ -118,7 +118,7 @@ Aguardo contato para finalizar o pagamento e combinar a entrega.`;
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Nome Completo *</label>
-                    <input required name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="John Doe" type="text" />
+                    <input required name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="João Silva" type="text" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">CPF *</label>
@@ -129,8 +129,8 @@ Aguardo contato para finalizar o pagamento e combinar a entrega.`;
                     <input required name="phone" value={formData.phone} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="(00) 00000-0000" type="tel" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Email <span className="normal-case tracking-normal text-slate-300">(Optional)</span></label>
-                    <input name="email" value={formData.email} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="john@example.com" type="email" />
+                    <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Email <span className="normal-case tracking-normal text-slate-300">(Opcional)</span></label>
+                    <input name="email" value={formData.email} onChange={handleInputChange} className="w-full h-14 px-6 rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm text-slate-900 dark:text-white" placeholder="joao@exemplo.com" type="email" />
                   </div>
                 </div>
               </section>

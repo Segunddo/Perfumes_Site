@@ -27,14 +27,14 @@ const Footer: React.FC = () => {
                 <span className="material-symbols-outlined text-green-500 text-lg">verified_user</span>
                 <div className="flex flex-col leading-none">
                   <span className="text-[10px] text-slate-400">Google</span>
-                  <span className="text-xs font-bold">Safe Browsing</span>
+                  <span className="text-xs font-bold">Navegação Segura</span>
                 </div>
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 rounded-md border border-slate-700">
                 <span className="material-symbols-outlined text-blue-500 text-lg">security</span>
                 <div className="flex flex-col leading-none">
                   <span className="text-[10px] text-slate-400">SSL</span>
-                  <span className="text-xs font-bold">SECURED</span>
+                  <span className="text-xs font-bold">SEGURO</span>
                 </div>
               </div>
             </div>
