@@ -46,7 +46,7 @@ const CheckoutPage: React.FC = () => {
     fetchCart();
   }, []);
 
-  const total = cartItems.reduce((sum, item) => sum + parsePrice(item.price), 0);
+  const total = cartItems.reduce((sum, item) => sum + (parsePrice(item.price) * (item.quantity || 1)), 0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
